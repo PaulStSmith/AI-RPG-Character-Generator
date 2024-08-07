@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder 2e Character Generator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .character-sheet {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .ability-score {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .ability-score h4 {
+            margin-bottom: 5px;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Pathfinder 2e Character Generator</h1>
+        <form id="character-form">
+            <div class="form-group">
+                <label for="prompt">Character Description:</label>
+                <textarea class="form-control" id="prompt" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Generate Character</button>
+        </form>
+        <div id="loading" class="loading">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-2">Generating character... This may take a moment.</p>
+        </div>
+        <div id="character-sheet" class="mt-5 character-sheet"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        function calculateModifier(score) {
+            return Math.floor((score - 10) / 2);
+        }
+
+        $(document).ready(function() {
+            $('#character-form').on('submit', function(e) {
+                e.preventDefault();
+                const prompt = $('#prompt').val();
+                $('#loading').show();
+                $('#character-sheet').hide();
+                $.ajax({
+                    url: '/generate',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ prompt: prompt }),
+                    success: function(data) {
+                        const characterSheet = `
+                            <h2 class="text-center mb-4">${data.name}</h2>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p><strong>Ancestry:</strong> ${data.ancestry}</p>
+                                    <p><strong>Background:</strong> ${data.background}</p>
+                                    <p><strong>Class:</strong> ${data.character_class.name} (Level ${data.level})</p>
+                                    <p><strong>Alignment:</strong> ${data.alignment}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p><strong>Hit Points:</strong> ${data.hit_points}</p>
+                                    <p><strong>Armor Class:</strong> ${data.armor_class}</p>
+                                    <p><strong>Languages:</strong> ${data.languages.join(', ')}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Saving Throws</h4>
+                                    <ul class="list-unstyled">
+                                        ${Object.entries(data.saving_throws).map(([save, value]) => 
+                                            `<li><strong>${save}:</strong> ${value}</li>`
+                                        ).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            <h3 class="mt-4">Abilities</h3>
+                            <div class="row">
+                                ${Object.entries(data.abilities).map(([ability, stats]) => `
+                                    <div class="col-md-2 col-sm-4">
+                                        <div class="ability-score">
+                                            <h4>${ability}</h4>
+                                            <p class="mb-0">Score: ${stats.score}</p>
+                                            <p class="mb-0">Modifier: ${calculateModifier(stats.score)}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <h3 class="mt-4">Skills</h3>
+                            <div class="row">
+                                ${data.skills.map(skill => `
+                                    <div class="col-md-3 col-sm-6">
+                                        <p><strong>${skill.name}:</strong> ${skill.proficiency} (${skill.modifier})</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <h3 class="mt-4">Feats</h3>
+                            <ul>
+                                ${data.feats.map(feat => `<li>${feat}</li>`).join('')}
+                            </ul>
+                            <h3 class="mt-4">Equipment</h3>
+                            <ul>
+                                ${data.equipment.map(item => `<li>${item}</li>`).join('')}
+                            </ul>
+                            <h3 class="mt-4">Character Details</h3>
+                            <p><strong>Description:</strong> ${data.description}</p>
+                            <p><strong>Look:</strong> ${data.look}</p>
+                            <p><strong>Way of Speaking:</strong> ${data.way_of_speaking}</p>
+                            <p><strong>Loves:</strong> ${data.loves}</p>
+                            <p><strong>Hates:</strong> ${data.hates}</p>
+                        `;
+                        $('#character-sheet').html(characterSheet);
+                        $('#loading').hide();
+                        $('#character-sheet').show();
+                    },
+                    error: function() {
+                        $('#character-sheet').html('<p class="text-danger">Failed to generate character sheet. Please try again.</p>');
+                        $('#loading').hide();
+                        $('#character-sheet').show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
