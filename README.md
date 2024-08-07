@@ -1,5 +1,8 @@
 # AI-RPG-Character-Generator
 
+<div style="display: flex; align-items: flex-start;">
+<div style="flex: 1; padding-right: 20px;">
+
 This project is a web-based application that generates character sheets for the Pathfinder 2nd Edition role-playing game. It uses OpenAI's GPT model to create detailed and creative character backgrounds, personalities, and statistics based on user prompts.
 
 ## Features
@@ -17,11 +20,17 @@ This project is a web-based application that generates character sheets for the 
 - Automatic calculation of ability modifiers
 - Responsive design for use on various devices
 
+</div>
+<div style="flex: 1;">
+<img src="Screenshot.png" alt="AI-RPG-Character-Generator Screenshot" style="max-width: 100%; height: auto;">
+</div>
+</div>
+
 ## Installation
 
 1. Clone this repository:
    ```
-   git clone https://github.com/stealthio/AI-RPG-Character-Generator.git
+   git clone https://github.com/yourusername/AI-RPG-Character-Generator.git
    cd AI-RPG-Character-Generator
    ```
 
@@ -49,15 +58,13 @@ This project is a web-based application that generates character sheets for the 
    python app.py
    ```
 
-2. Open a web browser and navigate to `http://127.0.0.1:5000`
+2. Open a web browser and navigate to `http://localhost:5000`
 
 3. Enter a character description in the text area and click "Generate Character"
 
 4. Wait for the character generation process to complete
 
 5. View your generated character sheet
-
-If the API doesn't respond as expected it might show an error - in that case just retry.
 
 ## Project Structure
 
@@ -68,6 +75,7 @@ project_root/
 ├── openai_client.py       # OpenAI API client
 ├── character_schema.py    # Pydantic models for character data
 ├── requirements.txt       # Project dependencies
+├── Screenshot.png         # Application screenshot
 │
 └── templates/
     └── index.html         # HTML template for the web interface
