@@ -5,6 +5,7 @@ $(document).ready(function() {
     // Setup copy button event handlers once on page load
     $('#copy-json').on('click', function() {
         if (characterData) {
+            // Copy JSON data to clipboard
             copyToClipboard(JSON.stringify(characterData, null, 2));
             showCopyFeedback();
         }
@@ -12,6 +13,7 @@ $(document).ready(function() {
 
     $('#copy-html').on('click', function() {
         if ($('#character-sheet').html().trim()) {
+            // Copy HTML content to clipboard
             copyToClipboard($('#character-sheet').html());
             showCopyFeedback();
         }
@@ -22,7 +24,7 @@ $(document).ready(function() {
             const element = document.getElementById('character-sheet');
             
             try {
-                // Use the clipboard API with HTML format
+                // Use the clipboard API with HTML and plain text formats
                 await navigator.clipboard.write([
                     new ClipboardItem({
                         'text/html': new Blob([element.innerHTML], { type: 'text/html' }),
@@ -58,6 +60,7 @@ $(document).ready(function() {
                 // Store the data for use by copy buttons
                 characterData = data;
                 
+                // Generate the character sheet HTML content
                 const characterSheet = `
                     <h2 class="text-center mb-4">${data.name}</h2>
                     <div class="row">
@@ -129,10 +132,12 @@ $(document).ready(function() {
     });
 });
 
+// Function to calculate ability score modifier
 function calculateModifier(score) {
     return Math.floor((score - 10) / 2);
 }
 
+// Function to copy text to clipboard
 function copyToClipboard(text) {
     const tempInput = document.createElement('textarea');
     tempInput.value = text;

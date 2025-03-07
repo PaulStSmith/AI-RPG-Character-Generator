@@ -3,6 +3,10 @@ from file_utils import open_file, file_exists
 import os
 
 def generate_keys():
+    """
+    Generates an encryption key, encrypts an API key from a file, and saves the encrypted API key.
+    Returns True if successful, otherwise False.
+    """
     # Generate and save the encryption key
     encryption_key = Fernet.generate_key()
     with open_file('key.key', 'wb') as key_file:
@@ -28,8 +32,10 @@ def generate_keys():
     return True
 
 if __name__ == "__main__":
+    # Generate keys and encrypt the API key
     if generate_keys():
         print("Encryption keys generated and API key encrypted successfully.")
+        # Ask the user if they want to delete the clean-text API key file
         delete_option = input("Do you want to delete the clean-text API key file (api_key.txt)? (yes/no): ").strip().lower()
         if delete_option == 'yes':
             os.remove('api_key.txt')
