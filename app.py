@@ -2,13 +2,33 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai_client import OpenAIClient
 import os
+from cryptography.fernet import Fernet
+from generate_keys import generate_keys
+from file_utils import file_exists, open_file
 
 app = Flask(__name__)
 CORS(app)
 
-api_key = os.getenv('OPENAI_API_KEY')
-if not api_key:
-    raise ValueError("Please set the OPENAI_API_KEY environment variable.")
+# Check for the existence of key.key
+if not file_exists('key.key'):
+    # If key.key does not exist, check for api_key.txt
+    if not file_exists('api_key.txt'):
+        print("Error: Both key.key and api_key.txt are missing. Aborting.")
+        exit(1)
+    else:
+        # If api_key.txt exists, generate the keys
+        generate_keys()
+
+# Load the encryption key and API key
+with open_file('key.key', 'rb') as key_file:
+    encryption_key = key_file.read()
+
+cipher_suite = Fernet(encryption_key)
+
+with open_file('api_key.enc', 'rb') as enc_file:
+    encrypted_api_key = enc_file.read()
+
+api_key = cipher_suite.decrypt(encrypted_api_key).decode('utf-8')
 
 client = OpenAIClient(api_key)
 

@@ -16,13 +16,13 @@ class OpenAIClient:
             completion = self.client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are a Pathfinder 2e character generator. Create a complete character sheet based on the user's prompt. Fill in any missing details creatively. Make sure to fill in ALL fields. If you're missing information to fill in a field, come up with something creative."},
+                    {"role": "system", "content": "You are a Pathfinder 1e character generator. Create a complete character sheet based on the user's prompt. Fill in any missing details creatively. Make sure to fill in ALL fields. If you're missing information to fill in a field, come up with something creative."},
                     {"role": "user", "content": prompt}
                 ],
                 functions=[
                     {
                         "name": "create_character_sheet",
-                        "description": "Generate a complete Pathfinder 2e character sheet",
+                        "description": "Generate a complete Pathfinder 1e character sheet",
                         "parameters": get_character_sheet_schema()
                     }
                 ],

@@ -31,6 +31,15 @@
             text-align: center;
             margin-top: 20px;
         }
+        .copy-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .copy-feedback {
+            display: none;
+            margin-top: 10px;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -50,12 +59,27 @@
             <p class="mt-2">Generating character... This may take a moment.</p>
         </div>
         <div id="character-sheet" class="mt-5 character-sheet"></div>
+        <div class="copy-buttons">
+            <p id="copy-feedback" class="copy-feedback">Copied to clipboard!</p>
+            <button id="copy-json" class="btn btn-secondary">Copy as JSON</button>
+            <button id="copy-html" class="btn btn-secondary">Copy as HTML</button>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
         function calculateModifier(score) {
             return Math.floor((score - 10) / 2);
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            $('#copy-feedback').fadeIn().delay(1000).fadeOut();
         }
 
         $(document).ready(function() {
@@ -131,6 +155,14 @@
                         $('#character-sheet').html(characterSheet);
                         $('#loading').hide();
                         $('#character-sheet').show();
+
+                        $('#copy-json').on('click', function() {
+                            copyToClipboard(JSON.stringify(data, null, 2));
+                        });
+
+                        $('#copy-html').on('click', function() {
+                            copyToClipboard($('#character-sheet').html());
+                        });
                     },
                     error: function() {
                         $('#character-sheet').html('<p class="text-danger">Failed to generate character sheet. Please try again.</p>');
