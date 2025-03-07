@@ -30,7 +30,7 @@ This project is a web-based application that generates character sheets for the 
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/AI-RPG-Character-Generator.git
+   git clone https://github.com/PaulStSmith/AI-RPG-Character-Generator
    cd AI-RPG-Character-Generator
    ```
 
@@ -45,11 +45,17 @@ This project is a web-based application that generates character sheets for the 
    pip install -r requirements.txt
    ```
 
-4. Set up your OpenAI API key as an environment variable:
+4. Place your OpenAI API key in a file named `api_key.txt` in the project root directory.
+
+5. Generate the encryption keys and encrypt your OpenAI API key:
    ```
-   export OPENAI_API_KEY='your-api-key-here'
+   python generate_keys.py
    ```
-   On Windows, use `set OPENAI_API_KEY=your-api-key-here`
+
+6. Run the Flask application:
+   ```
+   python app.py
+   ```
 
 ## Usage
 
@@ -62,9 +68,14 @@ This project is a web-based application that generates character sheets for the 
 
 3. Enter a character description in the text area and click "Generate Character"
 
+    For instance, try:
+    > Joe Under-Average. A level 3 fighter with big muscles and a small brain. He’s kind and friendly but has a low frustration tolerance. He always wears an amulet, which is actually just a small stick bound to a piece of rope.
+
 4. Wait for the character generation process to complete
 
 5. View your generated character sheet
+
+6. You can use the buttons under the character sheet to copy it as JSON or HTML
 
 ## Project Structure
 
