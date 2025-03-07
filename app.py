@@ -1,13 +1,22 @@
+import os
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from openai_client import OpenAIClient
-import os
 from cryptography.fernet import Fernet
 from generate_keys import generate_keys
 from file_utils import file_exists, open_file
 
-# Initialize Flask app
-app = Flask(__name__)
+# Get the absolute path to the directory containing this file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define paths to templates and static folders
+template_dir = os.path.join(current_dir, 'templates')
+static_dir = os.path.join(current_dir, 'static')
+
+# Create the Flask app with custom template and static folder paths
+app = Flask(__name__, 
+            template_folder=template_dir,
+            static_folder=static_dir)
 CORS(app)
 
 # Check for the existence of key.key

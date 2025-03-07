@@ -32,3 +32,22 @@ body {
     margin-top: 10px;
     color: green;
 }
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    .character-sheet {
+        background-color: #1e1e1e;
+        border: 1px solid #444;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .ability-score {
+        border: 1px solid #555;
+    }
+    .copy-feedback {
+        color: #90ee90;
+    }
+}

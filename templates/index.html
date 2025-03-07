@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathfinder 2e Character Generator</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container mt-5">
+        <img src="{{ url_for('static', filename='pathfinder.png') }}" alt="Pathfinder Logo" width="300" class="mx-auto d-block">
         <h1 class="mb-4 text-center">Pathfinder 2e Character Generator</h1>
         <form id="character-form">
             <div class="form-group">
@@ -34,6 +35,6 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
