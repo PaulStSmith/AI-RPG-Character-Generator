@@ -1,53 +1,383 @@
+@font-face {
+    font-family: 'Pathfinder';
+    src: url('/static/pathfinder.ttf') format('truetype');
+}
+
+:root {
+    /* Light Mode Colors */
+    --primary-color: #812118;
+    --primary-color-hover: #9c2820;
+    --secondary-color: #4d4335;
+    --secondary-color-hover: #5d5345;
+    --accent-color: #c17a32;
+    --accent-color-hover: #d18a42;
+    
+    /* Background & Text Colors */
+    --bg-color: #f8f5f0;
+    --card-bg: #ffffff;
+    --text-color: #2c2417;
+    --heading-color: #812118;
+    --form-label-color: #4d4335;
+    --form-bg: #ffffff;
+    --form-border: #ddd;
+    --form-text: #2c2417;
+    --form-focus-bg: #ffffff;
+    --form-focus-text: #2c2417;
+    
+    /* UI Elements */
+    --border-radius: 8px;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Mode Colors - Increased luminance */
+        --primary-color: #e05a50;
+        --primary-color-hover: #f06a60;
+        --secondary-color: #9d9385;
+        --secondary-color-hover: #ada395;
+        --accent-color: #ffa857;
+        --accent-color-hover: #ffb867;
+        
+        /* Background & Text Colors - Darker background */
+        --bg-color: #121009;
+        --card-bg: #1e1915;
+        --text-color: #f8f5f0;
+        --heading-color: #ffa857;
+        --form-label-color: #e0d8c0;
+        --form-bg: #2a2520;
+        --form-border: #3d3630;
+        --form-text: #f8f5f0;
+        --form-focus-bg: #3d3630;
+        --form-focus-text: #f8f5f0;
+        
+        /* UI Elements */
+        --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+}
+
 body {
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    padding-bottom: 40px;
 }
-.character-sheet {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+.container {
+    max-width: 1200px;
 }
-.ability-score {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pathfinder', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 700;
+    color: var(--heading-color);
+}
+
+h1 {
+    font-size: 2.5em;
     text-align: center;
-    margin-bottom: 10px;
+    margin: 30px 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
 }
-.ability-score h4 {
-    margin-bottom: 5px;
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+    position: relative;
 }
+
+.logo-container img {
+    transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Form Styling */
+.form-group label {
+    font-weight: 600;
+    color: var(--form-label-color);
+    margin-bottom: 8px;
+}
+
+.form-control {
+    border: 2px solid var(--form-border);
+    border-radius: var(--border-radius);
+    padding: 12px;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+    background-color: var(--form-bg);
+    color: var(--form-text);
+}
+
+.form-control:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(193, 122, 50, 0.25);
+    background-color: var(--form-focus-bg);
+    color: var(--form-focus-text);
+}
+
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-color-hover);
+    border-color: var(--primary-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading Indicator */
 .loading {
     display: none;
     text-align: center;
-    margin-top: 20px;
-}
-.copy-buttons {
-    margin-top: 20px;
-    text-align: center;
-}
-.copy-feedback {
-    display: none;
-    margin-top: 10px;
-    color: green;
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: var(--box-shadow);
 }
 
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #121212;
-        color: #e0e0e0;
+.loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: var(--accent-color) !important;
+}
+
+.loading p {
+    margin-top: 15px;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+/* Character Sheet */
+.character-sheet {
+    background-color: var(--card-bg);
+    border: 1px solid var(--form-border);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--box-shadow);
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.character-sheet::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background-image: url('/static/pathfinder.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    transform: rotate(15deg) translate(20px, -40px);
+    pointer-events: none;
+}
+
+.character-sheet h3, .character-sheet h2 {
+    margin-top: 25px !important;
+    color: var(--heading-color);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.character-sheet h2 {
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 3em;
+}
+
+.character-sheet h3 {
+    border-top: 1px solid var(--accent-color);
+    font-size: 1.4em;
+    padding-top: 5px;
+}
+
+.ability-scores-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.ability-score {
+    border: 2px solid #eee;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ability-score:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ability-score h4 {
+    margin-bottom: 8px;
+    /* font-weight: 500; */
+    color: var(--primary-color);
+    font-size: 1em;
+}
+
+.ability-abbr {
+    line-height: 1em;
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 0;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    font-family: 'Pathfinder', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.ability-value {
+    font-size: 4em;
+    font-weight: 900;
+    line-height: 1em;
+    color: var(--accent-color);
+}
+
+.ability-modifier {
+    font-size: 1.2em;
+    color: var(--secondary-color);
+}
+
+/* Copy Buttons */
+.copy-buttons {
+    margin-top: 25px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    padding: 8px 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.copy-feedback {
+    display: none;
+    margin: 10px 0;
+    padding: 8px 16px;
+    background-color: rgba(40, 167, 69, 0.2);
+    border-radius: var(--border-radius);
+    color: #28a745;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+}
+
+#copy-failed {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .ability-scores-container {
+        grid-template-columns: repeat(2, 1fr);
     }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
     .character-sheet {
-        background-color: #1e1e1e;
-        border: 1px solid #444;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        padding: 20px 15px;
     }
-    .ability-score {
-        border: 1px solid #555;
+}
+
+@media (max-width: 576px) {
+    .ability-scores-container {
+        grid-template-columns: 1fr;
     }
+    
+    h1 {
+        font-size: 2em;
+    }
+}
+
+/* We don't need most dark mode overrides since we're using CSS variables now */
+@media (prefers-color-scheme: dark) {
+    .loading {
+        background-color: rgba(42, 37, 32, 0.8);
+    }
+    
     .copy-feedback {
-        color: #90ee90;
+        background-color: rgba(40, 167, 69, 0.3);
     }
+    
+    #copy-failed {
+        background-color: rgba(220, 53, 69, 0.3);
+    }
+    
+    /* Fix for scrollbar in dark mode */
+    ::-webkit-scrollbar-track {
+        background: #2a2520;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.character-sheet {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--form-bg);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }

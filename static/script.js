@@ -40,11 +40,6 @@ $(document).ready(function() {
         }
     });
 
-    // Function to show copy feedback
-    function showCopyFeedback() {
-        $('#copy-feedback').fadeIn().delay(1000).fadeOut();
-    }
-
     // Form submission handler
     $('#character-form').on('submit', function(e) {
         e.preventDefault();
@@ -89,8 +84,9 @@ $(document).ready(function() {
                         ${Object.entries(data.abilities).map(([ability, stats]) => `
                             <div class="col-md-2 col-sm-4">
                                 <div class="ability-score">
+                                    <p class="ability-abbr">${ability.substring(0, 3).toUpperCase()}</p>
                                     <h4>${ability}</h4>
-                                    <p class="mb-0">Score: ${stats.score}</p>
+                                    <p class="mb-0 ability-value">${stats.score}</p>
                                     <p class="mb-0">Modifier: ${calculateModifier(stats.score)}</p>
                                 </div>
                             </div>
@@ -132,12 +128,14 @@ $(document).ready(function() {
     });
 });
 
-// Function to calculate ability score modifier
+function showCopyFeedback() {
+    $('#copy-feedback').fadeIn().delay(1000).fadeOut();
+}
+
 function calculateModifier(score) {
     return Math.floor((score - 10) / 2);
 }
 
-// Function to copy text to clipboard
 function copyToClipboard(text) {
     const tempInput = document.createElement('textarea');
     tempInput.value = text;

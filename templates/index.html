@@ -5,36 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathfinder 2e Character Generator</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <div class="container mt-5">
-        <img src="{{ url_for('static', filename='pathfinder.png') }}" alt="Pathfinder Logo" width="300" class="mx-auto d-block">
-        <h1 class="mb-4 text-center">Pathfinder 2e Character Generator</h1>
-        <form id="character-form">
-            <div class="form-group">
-                <label for="prompt">Character Description:</label>
-                <textarea class="form-control" id="prompt" rows="3" required></textarea>
+        <div class="logo-container">
+            <img src="/static/pathfinder.png" alt="Pathfinder Compatible Logo" width="300">
+        </div>
+        
+        <h1 class="mb-4">Pathfinder Character Generator</h1>
+        
+        <div class="card mb-4" style="background-color: var(--card-bg); border-color: var(--form-border);">
+            <div class="card-body">
+                <form id="character-form">
+                    <div class="form-group">
+                        <label for="prompt"><i class="fas fa-pen-fancy mr-2"></i>Describe your character:</label>
+                        <textarea class="form-control" id="prompt" rows="3" placeholder="Example: A nimble elven rogue who grew up on the streets and has a talent for alchemy..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-magic mr-2"></i>Generate Character
+                    </button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Generate Character</button>
-        </form>
+        </div>
+        
         <div id="loading" class="loading">
             <div class="spinner-border text-primary" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
-            <p class="mt-2">Generating character... This may take a moment.</p>
+            <p class="mt-2">Conjuring your character... Please wait while the dice roll!</p>
         </div>
-        <div id="character-sheet" class="mt-5 character-sheet"></div>
+        
+        <div id="character-sheet" class="character-sheet">
+            <!-- Character content will be inserted here by JavaScript -->
+        </div>
+        
         <div class="copy-buttons">
-            <p id="copy-feedback" class="copy-feedback">Copied to clipboard!</p>
+            <p id="copy-feedback" class="copy-feedback">Successfully copied to clipboard!</p>
             <p id="copy-failed" class="copy-feedback">Failed to copy to clipboard!</p>
-            <button id="copy-json" class="btn btn-secondary">Copy as JSON</button>
-            <button id="copy-html" class="btn btn-secondary">Copy as HTML</button>
-            <button id="copy-text" class="btn btn-secondary">Copy Text</button>
+            <button id="copy-json" class="btn btn-secondary">
+                <i class="fas fa-code mr-2"></i>Copy as JSON
+            </button>
+            <button id="copy-html" class="btn btn-secondary">
+                <i class="fas fa-file-code mr-2"></i>Copy as HTML
+            </button>
+            <button id="copy-text" class="btn btn-secondary">
+                <i class="fas fa-file-alt mr-2"></i>Copy Text
+            </button>
         </div>
     </div>
 
+    <footer class="text-center mt-5 mb-4">
+        <small>
+            This character generator is unofficial Fan Content permitted under the Paizo Fan Content Policy.<br/>
+            Not approved and/or endorsed by Paizo Inc. Portions of the materials used are property of Paizo Inc.<br/>
+            Originally created by <a href="https://github.com/stealthio">Paul T</a>.<br/>
+            Modified by <a href="https://github.com/PaulStSmith">Paulo Santos</a>.<br/>
+            <br/><br/>
+            Paizo, Pathfinder, and the Pathfinder logo are registered trademarks of Paizo Inc.
+        </small>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
