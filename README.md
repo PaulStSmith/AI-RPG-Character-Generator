@@ -80,16 +80,30 @@ This project is a web-based application that generates character sheets for the 
 ## Project Structure
 
 ```
-project_root/
+src/
 │
-├── app.py                 # Flask application
-├── openai_client.py       # OpenAI API client
-├── character_schema.py    # Pydantic models for character data
-├── requirements.txt       # Project dependencies
-├── Screenshot.png         # Application screenshot
+├── static/
+│   ├── pathfinder.png       # Pathfinder Compatible logo
+│   ├── pathfinder.ttf       # Pathfinder font (From the Compatibility package)
+│   ├── script.js            # JavaScript file for client-side functionality
+│   └── styles.css           # CSS file for styling the web interface
 │
-└── templates/
-    └── index.html         # HTML template for the web interface
+├── templates/
+│   └── index.html           # HTML template for the web interface
+│
+├── .gitignore               # Git ignore file to exclude certain files from version control
+├── api_key.enc              # Encrypted OpenAI API key
+├── api_key.txt              # Plain text OpenAI API key (to be encrypted)
+├── app.py                   # Flask application entry point
+├── character_schema.py      # Pydantic models for character data
+├── file_utils.py            # Utility functions for file operations
+├── generate_keys.py         # Script to generate encryption keys and encrypt the API key
+├── key.key                  # Encryption key file
+├── LICENSE                  # License file for the project
+├── openai_client.py         # OpenAI API client for interacting with the GPT model
+├── README.md                # This file
+├── requirements.txt         # Project dependencies
+└── Screenshot.png           # Application screenshot
 ```
 
 ## License
