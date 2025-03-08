@@ -144,3 +144,29 @@ function copyToClipboard(text) {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
 }
+
+// Array of witty coffee messages
+const coffeeMessages = [
+    "Did this character generator save you a critical roll?<br/>Consider buying me a potion (or coffee) to keep the magic flowing!",
+    "A wizard needs their coffee!<br/>Support this spellcasting and fund my next caffeine ritual.",
+    "Critical Hit on your wallet?<br/>Even a copper piece helps keep this character generator rolling!",
+    "Help this GM stay caffeinated!<br/>Your support gives me advantage on staying awake while coding new features.",
+    "Did this tool help you roll a nat 20 on character creation?<br/>Consider tipping your tavern keeper!",
+    "Fund my Coffee of Greater Restoration (+5 to coding ability)!",
+    "Every donation increases the odds of favorable dice rolls<br/>(not literally, but one can hope).",
+    "Support the arcane arts!<br/>Each coffee powers a new spell (feature) for the character generator.",
+    "Adventurers tip their quest givers!<br/>Consider leaving a few gold coins in the tip jar."
+];
+
+// Select a random message when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const coffeeMessageElement = document.getElementById('coffee-message');
+    const randomIndex = Math.floor(Math.random() * coffeeMessages.length);
+    coffeeMessageElement.innerHTML = coffeeMessages[randomIndex];
+});
+
+// Open payment link when button is clicked
+document.querySelector('.bmc-btn').addEventListener('click', function() {
+    // You can add your payment link URL here
+    window.open('https://buymeacoffee.com/paulstsmith', '_blank');
+});
